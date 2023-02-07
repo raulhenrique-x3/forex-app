@@ -1,0 +1,13 @@
+.walletScreenDesktop {
+  width: 100%;
+  margin-top: 5%;
+}
+
+@media (min-width: 896px) {
+  .walletScreenDesktop {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
