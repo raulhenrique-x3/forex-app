@@ -49,6 +49,7 @@ io.on("connection", (socket) => {
     console.log("User disconnected");
   });
 });
+
 mongoose
   .connect(process.env.DB_URI!)
   .then(() => console.log("Connected to DB"))
@@ -65,8 +66,4 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   });
 });
 
-server.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
-});
-
-export { server };
+export default app;
