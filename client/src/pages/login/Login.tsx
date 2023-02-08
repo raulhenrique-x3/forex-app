@@ -45,7 +45,6 @@ export const Login = () => {
     axios
       .post("http://localhost:5000/session/", { userEmail: email, userPassword: password })
       .then((res) => {
-        console.log(socket.emit("user_login"));
         socket.emit("user_login");
         login(true);
         toast({

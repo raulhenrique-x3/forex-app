@@ -27,8 +27,24 @@ export default {
   async create(req: Request, res: Response) {
     try {
       const { userName, userEmail, userPassword }: IUser = req.body;
-      const userAlreadyExists = await User.findOne<Promise<IUser>>({ userEmail });
 
+      if (!userName && !userEmail && !userPassword) {
+        return res.status(400).send({ message: "Please, fill the fields" });
+      }
+
+      if (!userName) {
+        return res.status(400).send({ message: "Please, enter a username" });
+      }
+
+      if (!userEmail) {
+        return res.status(400).send({ message: "Please, enter a email" });
+      }
+
+      if (!userPassword) {
+        return res.status(400).send({ message: "Please, enter a password" });
+      }
+
+      const userAlreadyExists = await User.findOne<Promise<IUser>>({ userEmail });
       if (userAlreadyExists) {
         return res.status(400).send({ message: "User already exists" });
       }

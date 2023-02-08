@@ -23,5 +23,3 @@ export default {
     }
   },
 };
-
-// ERRO DE HEADERS PODE SER CORRIGIDO COM UM RETURN NAS CONDIÇÕES
