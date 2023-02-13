@@ -26,21 +26,18 @@ const CurrencyContainer: React.FC<ICurrencyContainer> = ({ userId, showGBP, show
   const socket = io("ws://localhost:5000", { autoConnect: true });
   const [usdApi, setUsdApi] = useState<number>();
   const [gbpApi, setGbpApi] = useState<number>();
-  const [ioResponse, setIoResponse] = useState<object[]>();
   const navigate = useNavigate();
 
   useEffect(() => {
     socket.on("Updated data from usd_to_gbp API", (data) => {
       setInterval(() => {
         setUsdApi(data);
-        setIoResponse(data);
       }, 5000);
     });
 
     socket.on("Updated data from gbp_to_usd API", (data) => {
       setInterval(() => {
         setGbpApi(data);
-        setIoResponse(data);
       }, 5000);
     });
 
