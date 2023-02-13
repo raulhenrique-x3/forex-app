@@ -8,23 +8,10 @@ import { DesktopHeaderInfos } from "../../components/desktopHeaderInfos/DesktopH
 import Header from "../../components/header/Header";
 import { Wallet } from "../../components/wallet/Wallet";
 import { IUser } from "../../interface/interface";
-import io from "socket.io-client";
 
 export const Home = () => {
-  const socket = io("ws://localhost:5000", { autoConnect: true });
   const [userData, setUserData] = useState<IUser[]>([]);
-  const [ioResponse, setIoResponse] = useState<object[]>();
   let { userId } = useParams();
-
-  useEffect(() => {
-    socket.on("Atualized data from API", (data) => {
-      setIoResponse([data]);
-    });
-
-    return () => {
-      socket.off("Atualized data from API");
-    };
-  }, [socket]);
 
   useEffect(() => {
     axios
@@ -35,7 +22,7 @@ export const Home = () => {
       .catch((error) => {
         console.error(error);
       });
-  }, [ioResponse]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [userData]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Flex w="100%" direction="column" alignItems="center" justifyContent="center" backgroundColor={"#F1F1F1"}>
