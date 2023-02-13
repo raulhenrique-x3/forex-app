@@ -5,8 +5,6 @@ import { IoLogoUsd } from "react-icons/io";
 import { AiFillPoundCircle } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import io from "socket.io-client";
-const socket = io("ws://localhost:5000", { autoConnect: true });
-socket.connect();
 
 interface ICurrencyContainer {
   userId?: React.ReactNode;
@@ -28,18 +26,22 @@ const CurrencyContainer: React.FC<ICurrencyContainer> = ({ userId, showGBP, show
   const [gbpApi, setGbpApi] = useState<number>();
   const navigate = useNavigate();
   useEffect(() => {
-    socket.on("Updated data from usd_to_gbp API", (data) => {
-      setUsdApi(data);
-    });
+    const socket = io("ws://localhost:5000", { autoConnect: true });
+    socket.connect();
+    setInterval(() => {
+      socket.on("Updated data from usd_to_gbp API", (data) => {
+        setUsdApi(data);
+      });
 
-    socket.on("Updated data from gbp_to_usd API", (data) => {
-      setGbpApi(data);
-    });
+      socket.on("Updated data from gbp_to_usd API", (data) => {
+        setGbpApi(data);
+      });
+    }, 1000);
 
     return () => {
       socket.disconnect();
     };
-  }, [socket]);
+  }, []);
 
   return (
     <>

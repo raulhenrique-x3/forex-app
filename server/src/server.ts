@@ -21,8 +21,6 @@ io.on("connection", (socket) => {
       .get("http://localhost:5000/api/usd_to_gbp/")
       .then((res) => {
         socket.emit("Updated data from usd_to_gbp API", res?.data[0].Value);
-
-        console.log(res?.data[0].Value);
       })
       .catch((error) => console.error(error));
     await axios
@@ -31,7 +29,7 @@ io.on("connection", (socket) => {
         socket.emit("Updated data from gbp_to_usd API", res?.data[0].Value);
       })
       .catch((error) => console.error(error));
-  }, 5000);
+  }, 1000);
 
   connections.add(socket);
   socket.once("disconnect", function () {
