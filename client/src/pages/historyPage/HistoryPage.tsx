@@ -1,6 +1,5 @@
-import { Button, Container } from "@chakra-ui/react";
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Header from "../../components/header/Header";
 import { TableHistory } from "../../components/tableHistory/TableHistory";
@@ -39,7 +38,7 @@ export const HistoryPage = () => {
       .catch((error) => {
         console.error(error);
       });
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <main className={styles.historyPageMain}>

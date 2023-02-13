@@ -20,19 +20,21 @@ export default {
       }
 
       switch (choosedCurrency) {
-        case "GBP":
-          if (usdAmount < currencyValue * userQuantity || userQuantity <= 0) {
-            res.status(400).send("Insufficient amount for the transaction...");
+        case "GBP-USD":
+          if (usdAmount < currencyValue * userQuantity) {
+            res.status(400).send({ message: "Insufficient amount for the transaction..." });
+          } else if (userQuantity <= 0) {
+            res.status(400).send({ message: "Enter a correct value..." });
           } else {
             await User.findByIdAndUpdate(userId, {
               $inc: {
-                "userWallet.usdAmount": -userQuantity * currencyValue,
+                "userWallet.usdAmount": -userQuantity,
               },
             })
               .then(() =>
                 User.findByIdAndUpdate(userId, {
                   $inc: {
-                    "userWallet.gbpAmount": userQuantity,
+                    "userWallet.gbpAmount": userQuantity * currencyValue,
                   },
 
                   $set: { "userWallet.userBalance": gbpAmount + usdAmount },
@@ -44,19 +46,21 @@ export default {
               });
           }
           break;
-        case "USD":
-          if (gbpAmount < currencyValue * userQuantity || userQuantity <= 0) {
-            res.status(400).send("Insufficient amount for the transaction...");
+        case "USD-GBP":
+          if (gbpAmount < currencyValue * userQuantity) {
+            res.status(400).send({ message: "Insufficient amount for the transaction..." });
+          } else if (userQuantity <= 0) {
+            res.status(400).send({ message: "Enter a correct value..." });
           } else {
             await User.findByIdAndUpdate(userId, {
               $inc: {
-                "userWallet.gbpAmount": -userQuantity * currencyValue,
+                "userWallet.gbpAmount": -userQuantity,
               },
             })
               .then(() =>
                 User.findByIdAndUpdate(userId, {
                   $inc: {
-                    "userWallet.usdAmount": userQuantity,
+                    "userWallet.usdAmount": userQuantity * currencyValue,
                   },
                   $set: { "userWallet.userBalance": gbpAmount + usdAmount },
                 })

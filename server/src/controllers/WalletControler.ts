@@ -5,7 +5,7 @@ export default {
   async create(req: Request, res: Response) {
     const userId = req.params.id;
     const user = User.findOne({ userId });
-    const addToWallet: number = req.body.addToWallet;
+    const addToWallet = req.body.addToWallet;
     try {
       if (!user) {
         return res.status(400).send({ message: "User not found" });

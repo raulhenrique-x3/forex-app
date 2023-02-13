@@ -2,6 +2,17 @@ import User from "../../models/userData";
 import app from "../../index";
 import request from "supertest";
 import { UserMock } from "./userMock";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+dotenv.config({ path: "../../src/.env" });
+jest.setTimeout(60000);
+
+beforeEach(async () => {
+  await mongoose
+    .connect(process.env.DB_TEST_URI!)
+    .then(() => console.log("Connected to MongoDB"))
+    .catch((err) => console.error(err));
+});
 
 describe("Test if user can be registered and saved in db", () => {
   it("can register in app?", async () => {

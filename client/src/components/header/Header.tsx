@@ -8,19 +8,16 @@ import {
   DrawerCloseButton,
   DrawerContent,
   DrawerFooter,
-  DrawerHeader,
   DrawerOverlay,
   Flex,
   Text,
   useDisclosure,
-  WrapItem,
 } from "@chakra-ui/react";
 import React from "react";
 import { HiOutlineMenu } from "react-icons/hi";
 import styles from "./header.module.scss";
 import useAuth from "../../hooks/useAuth";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { DesktopHeaderInfos } from "../desktopHeaderInfos/DesktopHeaderInfos";
 import { IUser } from "../../interface/interface";
 import { Wallet } from "../wallet/Wallet";
 
@@ -30,16 +27,12 @@ interface IHeader {
 
 const Header: React.FC<IHeader> = ({ user }) => {
   const navigate = useNavigate();
-  const { isAuthenticated, logout } = useAuth();
+  const { logout } = useAuth();
   let { userId } = useParams();
 
   const userLogout = () => {
+    navigate("/");
     logout();
-    if (!isAuthenticated) {
-      navigate("/");
-    } else {
-      return;
-    }
   };
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -122,7 +115,7 @@ const Header: React.FC<IHeader> = ({ user }) => {
             <Link to={`/history/${userId}`}>History </Link>
           </li>
         </ul>
-        <Button colorScheme="blue" onClick={userLogout}>
+        <Button colorScheme="blue" data-testid="Logout" onClick={userLogout}>
           Logout
         </Button>
       </nav>

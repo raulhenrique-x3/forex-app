@@ -16,12 +16,12 @@ import {
 import axios from "axios";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+
 export const Register: React.FC = () => {
   const [userName, setUserName] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const toast = useToast();
-
   const register = () => {
     axios
       .post("http://localhost:5000/register", { userName: userName, userEmail: userEmail, userPassword: userPassword })
@@ -39,6 +39,11 @@ export const Register: React.FC = () => {
           status: "warning",
           isClosable: true,
         });
+      })
+      .finally(() => {
+        setUserName("");
+        setUserEmail("");
+        setUserPassword("");
       });
   };
 
@@ -64,7 +69,7 @@ export const Register: React.FC = () => {
               <Box>
                 <FormControl isRequired>
                   <FormLabel htmlFor="name">Your name</FormLabel>
-                  <Input placeholder="Enter your name" onChange={(e) => setUserName(e.target.value)} />
+                  <Input value={userName} placeholder="ex: John Doe" onChange={(e) => setUserName(e.target.value)} />
                 </FormControl>
               </Box>
               <Box>
@@ -72,8 +77,9 @@ export const Register: React.FC = () => {
                   <FormLabel htmlFor="email">Email</FormLabel>
                   <Input
                     type="email"
+                    value={userEmail}
                     id="email"
-                    placeholder="Enter your email"
+                    placeholder="ex: user@email.com"
                     onChange={(e) => setUserEmail(e.target.value)}
                   />
                 </FormControl>
@@ -82,9 +88,10 @@ export const Register: React.FC = () => {
                 <FormControl isRequired>
                   <FormLabel htmlFor="password">Password</FormLabel>
                   <Input
+                    value={userPassword}
                     type="password"
                     id="password"
-                    placeholder="Enter your password"
+                    placeholder="min length 8"
                     onChange={(e) => setUserPassword(e.target.value)}
                   />
                 </FormControl>
@@ -94,7 +101,16 @@ export const Register: React.FC = () => {
                   Register
                 </Button>
                 <Link to="/">
-                  <Text textAlign={"center"}>Have an account?</Text>
+                  <Container marginTop={4}>
+                    <Text
+                      textAlign={"center"}
+                      fontWeight={600}
+                      color={"#8236FD"}
+                      _hover={{ borderBottom: "1px solid #8236FD" }}
+                    >
+                      Have an account?
+                    </Text>
+                  </Container>
                 </Link>
               </Box>
             </Stack>

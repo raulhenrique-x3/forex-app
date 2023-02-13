@@ -13,39 +13,27 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import useAuth from "../../hooks/useAuth";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import io from "socket.io-client";
 import axios from "axios";
 
-export const Login = () => {
-  const socket = io("http://localhost:5000", { autoConnect: false });
+interface ILogin {
+  submit: ({ userEmail, userPassword }: any) => void | undefined;
+}
+
+export const Login: React.FC<ILogin> = ({ submit }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const toast = useToast();
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    socket.on("success_login", () => {
-      login(true);
-    });
-
-    socket.on("disconnect", () => {
-      login(false);
-    });
-
-    return () => {
-      socket.off("connect");
-      socket.off("disconnect");
-    };
-  }, []);
-
   const userLogin = () => {
+    submit({ userEmail: "raul@email.com", userPassword: "123456789" });
+
     axios
       .post("http://localhost:5000/session/", { userEmail: email, userPassword: password })
       .then((res) => {
-        socket.emit("user_login");
         login(true);
         toast({
           title: "Logged",
@@ -62,6 +50,7 @@ export const Login = () => {
         });
       });
   };
+
   return (
     <Box
       backgroundColor={"#cccccc"}
@@ -83,23 +72,43 @@ export const Login = () => {
             <Stack divider={<StackDivider />} spacing="4">
               <Box>
                 <FormLabel>Email</FormLabel>
-                <Input type="text" placeholder="Enter your email" onChange={(e) => setEmail(e.target.value)} />
+                <Input
+                  data-testid="email"
+                  type="text"
+                  placeholder="Enter your email"
+                  onChange={(e) => setEmail(e.target.value)}
+                />
               </Box>
               <Box>
                 <Text>Password</Text>
                 <Input
                   type="password"
-                  id="password"
+                  data-testid="password"
                   placeholder="Enter your password"
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </Box>
               <Box display={"flex"} flexDirection={"column"}>
-                <Button color={"#ffffff"} mt={4} backgroundColor={"#8236FD"} onClick={userLogin}>
+                <Button
+                  data-testid="loginButton"
+                  color={"#ffffff"}
+                  mt={4}
+                  backgroundColor={"#8236FD"}
+                  onClick={userLogin}
+                >
                   Login
                 </Button>
                 <Link to="/register">
-                  <Text textAlign={"center"}>Create an account</Text>
+                  <Container marginTop={4}>
+                    <Text
+                      textAlign={"center"}
+                      fontWeight={600}
+                      color={"#8236FD"}
+                      _hover={{ borderBottom: "1px solid #8236FD" }}
+                    >
+                      Create an account
+                    </Text>
+                  </Container>
                 </Link>
               </Box>
             </Stack>
