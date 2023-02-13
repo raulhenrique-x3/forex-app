@@ -1,6 +1,5 @@
 import { Avatar, Card, Container, Flex, Text } from "@chakra-ui/react";
-import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { BsArrowRightSquareFill } from "react-icons/bs";
 import { IoLogoUsd } from "react-icons/io";
 import { AiFillPoundCircle } from "react-icons/ai";
@@ -23,32 +22,25 @@ interface ICurrencyContainer {
 }
 
 const CurrencyContainer: React.FC<ICurrencyContainer> = ({ userId, showGBP, showUSD, showArrow }) => {
-  const socket = io("localhost:5000", { autoConnect: true });
   const [usdApi, setUsdApi] = useState<number>();
   const [gbpApi, setGbpApi] = useState<number>();
   const navigate = useNavigate();
 
   useEffect(() => {
+    const socket = io("ws://localhost:5000", { autoConnect: true });
     socket.connect();
-
-    socket.on("connect_error", (err) => {
-      console.log("Connection Lost. Reconnecting..");
-      socket.disconnect();
-      socket.connect();
-    });
-
     socket.on("Updated data from usd_to_gbp API", (data) => {
       setInterval(() => {
         setUsdApi(data);
+        console.log("data from usd_to_gbp API", data);
       }, 3000);
     });
-
     socket.on("Updated data from gbp_to_usd API", (data) => {
       setInterval(() => {
         setGbpApi(data);
+        console.log("data from gbp_to_usd API", data);
       }, 3000);
     });
-
     return () => {
       socket.disconnect();
     };
@@ -65,9 +57,7 @@ const CurrencyContainer: React.FC<ICurrencyContainer> = ({ userId, showGBP, show
           <Card padding={4}>
             <Flex align={"center"} gap={8}>
               <Avatar bg="#ffffff" icon={<IoLogoUsd color="#000000" />} />
-              <Text color={"#000000"} fontWeight={"bold"}>
-                USD-GBP: {usdApi}
-              </Text>
+              <Text> USD-GBP: {usdApi}</Text>
               {showArrow && <BsArrowRightSquareFill color="#000000" cursor={"pointer"} />}
             </Flex>
           </Card>
@@ -82,9 +72,7 @@ const CurrencyContainer: React.FC<ICurrencyContainer> = ({ userId, showGBP, show
           <Card padding={4}>
             <Flex alignItems={"center"} gap={8}>
               <Avatar bg="#ffffff" icon={<AiFillPoundCircle color="#000000" />} />
-              <Text color={"#000000"} fontWeight={"bold"}>
-                GBP-USD: {gbpApi}
-              </Text>
+              <Text> GBP-USD: {gbpApi}</Text>
               {showArrow && <BsArrowRightSquareFill color="#000000" cursor={"pointer"} />}
             </Flex>
           </Card>

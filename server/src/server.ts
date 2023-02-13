@@ -14,6 +14,7 @@ const io = new Server(server, {
 });
 
 const connections = new Set();
+
 let usd_to_gbp_val: number;
 let gbp_to_usd_val: number;
 function get() {
@@ -35,8 +36,12 @@ function get() {
 get();
 
 io.on("connection", (socket) => {
-  socket.emit("Updated data from usd_to_gbp API", usd_to_gbp_val);
-  socket.emit("Updated data from gbp_to_usd API", gbp_to_usd_val);
+  setInterval(async () => {
+    socket.emit("Updated data from usd_to_gbp API", usd_to_gbp_val);
+    console.log("Updated data from usd_to_gbp API", usd_to_gbp_val);
+    socket.emit("Updated data from gbp_to_usd API", gbp_to_usd_val);
+    console.log("Updated data from gbp_to_usd API", gbp_to_usd_val);
+  }, 3000);
 
   connections.add(socket);
   socket.once("disconnect", function () {
