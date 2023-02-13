@@ -29,7 +29,6 @@ import { CurrencyWallet } from "../../components/currencyWallet/CurrencyWallet";
 import { IUser } from "../../interface/interface";
 import { Wallet } from "../../components/wallet/Wallet";
 import styles from "./buyCurrency.module.scss";
-import CurrencyContainer from "../../components/currencyContainer/CurrencyContainer";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -49,7 +48,6 @@ export const BuyCurrency: React.FC<IBuyCurrency> = ({ jestBuyTest, jestHistoryTe
   const [currencyValue, setCurrencyValue] = useState<IBuyCurrency[]>([]);
   const [userQuantity, setUserQuantity] = useState<string>();
   const [choosedCurrency, setChoosedCurrency] = useState<string>();
-  const [ioResponse, setIoResponse] = useState<object[]>();
 
   const toast = useToast();
   let { userId } = useParams();
@@ -145,11 +143,6 @@ export const BuyCurrency: React.FC<IBuyCurrency> = ({ jestBuyTest, jestHistoryTe
             <Wallet />
             <CurrencyWallet walletName="GBP Wallet" user={userData} />
             <CurrencyWallet walletName="USD Wallet" user={userData} />
-            {/* {exchange === "usd_to_gbp" ? (
-              <CurrencyContainer showGBP={true} showArrow={false} />
-            ) : (
-              <CurrencyContainer showUSD={true} showArrow={false} />
-            )} */}
           </Container>
           <Container display={"flex"} flexDirection={"column"} gap={4}>
             <Text fontSize="xl">Buy</Text>
