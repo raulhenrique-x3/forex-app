@@ -15,33 +15,23 @@ const io = new Server(server, {
 
 const connections = new Set();
 
-let usd_to_gbp_val: number;
-let gbp_to_usd_val: number;
-function get() {
+io.on("connection", (socket) => {
   setInterval(async () => {
     await axios
       .get("http://localhost:5000/api/usd_to_gbp/")
       .then((res) => {
-        usd_to_gbp_val = res?.data[0].Value;
+        socket.emit("Updated data from usd_to_gbp API", res?.data[0].Value);
+
+        console.log(res?.data[0].Value);
       })
       .catch((error) => console.error(error));
     await axios
       .get("http://localhost:5000/api/gbp_to_usd/")
       .then((res) => {
-        gbp_to_usd_val = res?.data[0].Value;
+        socket.emit("Updated data from gbp_to_usd API", res?.data[0].Value);
       })
       .catch((error) => console.error(error));
-  }, 3000);
-}
-get();
-
-io.on("connection", (socket) => {
-  setInterval(async () => {
-    socket.emit("Updated data from usd_to_gbp API", usd_to_gbp_val);
-    console.log("Updated data from usd_to_gbp API", usd_to_gbp_val);
-    socket.emit("Updated data from gbp_to_usd API", gbp_to_usd_val);
-    console.log("Updated data from gbp_to_usd API", gbp_to_usd_val);
-  }, 3000);
+  }, 5000);
 
   connections.add(socket);
   socket.once("disconnect", function () {
