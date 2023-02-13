@@ -20,11 +20,9 @@ function get() {
   setInterval(async () => {
     await axios.get("http://localhost:5000/api/usd_to_gbp/").then((res) => {
       usd_to_gbp_val = res?.data[0].Value;
-      console.log("Valor de usd_to_gbp_val", usd_to_gbp_val);
     });
     await axios.get("http://localhost:5000/api/gbp_to_usd/").then((res) => {
       gbp_to_usd_val = res?.data[0].Value;
-      console.log("Valor de gbp_to_usd_val", gbp_to_usd_val);
     });
   }, 5000);
 }

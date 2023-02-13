@@ -33,7 +33,6 @@ const CurrencyContainer: React.FC<ICurrencyContainer> = ({ userId, showGBP, show
     socket.on("Updated data from usd_to_gbp API", (data) => {
       setInterval(() => {
         setUsdApi(data);
-        console.log("Socket io api", data);
         setIoResponse(data);
       }, 5000);
     });
@@ -41,8 +40,6 @@ const CurrencyContainer: React.FC<ICurrencyContainer> = ({ userId, showGBP, show
     socket.on("Updated data from gbp_to_usd API", (data) => {
       setInterval(() => {
         setGbpApi(data);
-        console.log("Socket io api", data);
-
         setIoResponse(data);
       }, 5000);
     });
