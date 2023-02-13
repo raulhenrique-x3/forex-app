@@ -29,8 +29,6 @@ import { CurrencyWallet } from "../../components/currencyWallet/CurrencyWallet";
 import { IUser } from "../../interface/interface";
 import { Wallet } from "../../components/wallet/Wallet";
 import styles from "./buyCurrency.module.scss";
-import io from "socket.io-client";
-import CurrencyContainer from "../../components/currencyContainer/CurrencyContainer";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -45,30 +43,15 @@ interface IBuyCurrency {
 }
 
 export const BuyCurrency: React.FC<IBuyCurrency> = ({ jestBuyTest, jestHistoryTest }) => {
-  // const socket = io("ws://localhost:5000", { autoConnect: true });
-
   const [apiData, setApiData] = useState<IBuyCurrency[]>([]);
   const [userData, setUserData] = useState<IUser[]>([]);
   const [currencyValue, setCurrencyValue] = useState<IBuyCurrency[]>([]);
   const [userQuantity, setUserQuantity] = useState<string>();
   const [choosedCurrency, setChoosedCurrency] = useState<string>();
-  const [ioResponse, setIoResponse] = useState<object[]>();
 
   const toast = useToast();
   let { userId } = useParams();
   const { exchange } = useParams();
-
-  // useEffect(() => {
-  //   socket.on("Atualized data from API", (data) => {
-  //     setIoResponse([data]);
-  //   });
-
-  //   socket.emit("Previous data from API");
-
-  //   return () => {
-  //     socket.off("Atualized data from API");
-  //   };
-  // }, [socket]);
 
   useEffect(() => {
     axios
@@ -124,13 +107,11 @@ export const BuyCurrency: React.FC<IBuyCurrency> = ({ jestBuyTest, jestHistoryTe
         userQuantity: parseFloat(userQuantity!),
         choosedCurrency: choosedCurrency,
       });
-      console.log(data);
       await axios.put(`http://localhost:5000/history/${userId}`, {
         purchasedCurrency: choosedCurrency,
         currencyAmount: parseFloat(userQuantity!),
       });
 
-      console.log(data);
       toast({
         title: data,
         status: "success",
@@ -160,11 +141,6 @@ export const BuyCurrency: React.FC<IBuyCurrency> = ({ jestBuyTest, jestHistoryTe
             <Wallet />
             <CurrencyWallet walletName="GBP Wallet" user={userData} />
             <CurrencyWallet walletName="USD Wallet" user={userData} />
-            {exchange === "usd_to_gbp" ? (
-              <CurrencyContainer showGBP={true} showArrow={false} />
-            ) : (
-              <CurrencyContainer showUSD={true} showArrow={false} />
-            )}
           </Container>
           <Container display={"flex"} flexDirection={"column"} gap={4}>
             <Text fontSize="xl">Buy</Text>

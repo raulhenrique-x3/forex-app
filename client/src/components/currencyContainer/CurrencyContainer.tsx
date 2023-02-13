@@ -24,82 +24,65 @@ interface ICurrencyContainer {
 
 const CurrencyContainer: React.FC<ICurrencyContainer> = ({ userId, showGBP, showUSD, showArrow }) => {
   const socket = io("ws://localhost:5000", { autoConnect: true });
-  const [usdApi, setUsdApi] = useState<ICurrencyContainer[]>([]);
-  const [gbpApi, setGbpApi] = useState<ICurrencyContainer[]>([]);
-  const [ioResponse, setIoResponse] = useState<object[]>();
+  const [usdApi, setUsdApi] = useState<number>();
+  const [gbpApi, setGbpApi] = useState<number>();
   const navigate = useNavigate();
 
   useEffect(() => {
-    socket.on("Atualized data from API", (data) => {
-      setIoResponse([data]);
+    socket.on("Updated data from usd_to_gbp API", (data) => {
+      setInterval(() => {
+        setUsdApi(data);
+      }, 5000);
     });
-    setInterval(() => {
-      socket.emit("Previous data from API");
-    }, 1000);
+
+    socket.on("Updated data from gbp_to_usd API", (data) => {
+      setInterval(() => {
+        setGbpApi(data);
+      }, 5000);
+    });
 
     return () => {
-      socket.off("Atualized data from API");
+      socket.off("Updated data from usd_to_gbp API");
+      socket.off("Updated data from gbp_to_usd API");
     };
-  }, [socket]);
-
-  useEffect(() => {
-    axios
-      .get(`http://localhost:5000/api/usd_to_gbp`)
-      .then((res) => {
-        setUsdApi([res?.data?.[0]]);
-      })
-      .catch((err) => console.error(err));
-  }, [ioResponse]);
-
-  useEffect(() => {
-    axios
-      .get(`http://localhost:5000/api/gbp_to_usd`)
-      .then((res) => {
-        setGbpApi([res?.data[0]]);
-      })
-      .catch((err) => console.error(err));
-  }, [ioResponse]);
+  }, []);
 
   return (
     <>
-      {showUSD &&
-        usdApi?.map((data, key) => (
-          <Container
-            key={key}
-            marginTop={4}
-            cursor={"pointer"}
-            onClick={() => navigate(`/wallet/buy_currency/usd_to_gbp/${userId}`)}
-          >
-            <Card padding={4}>
-              <Flex align={"center"} gap={8}>
-                <Avatar bg="#ffffff" icon={<IoLogoUsd color="#000000" />} />
-                <Text color={"#000000"} fontWeight={"bold"}>
-                  USD-GBP: {data?.Value!}
-                </Text>
-                {showArrow && <BsArrowRightSquareFill color="#000000" cursor={"pointer"} />}
-              </Flex>
-            </Card>
-          </Container>
-        ))}
-      {showGBP &&
-        gbpApi?.map((data, key) => (
-          <Container
-            key={key}
-            marginTop={4}
-            cursor={"pointer"}
-            onClick={() => navigate(`/wallet/buy_currency/gbp_to_usd/${userId}`)}
-          >
-            <Card padding={4}>
-              <Flex alignItems={"center"} gap={8}>
-                <Avatar bg="#ffffff" icon={<AiFillPoundCircle color="#000000" />} />
-                <Text color={"#000000"} fontWeight={"bold"}>
-                  GBP-USD: {data?.Value!}
-                </Text>
-                {showArrow && <BsArrowRightSquareFill color="#000000" cursor={"pointer"} />}
-              </Flex>
-            </Card>
-          </Container>
-        ))}
+      {showUSD && (
+        <Container
+          marginTop={4}
+          cursor={"pointer"}
+          onClick={() => navigate(`/wallet/buy_currency/usd_to_gbp/${userId}`)}
+        >
+          <Card padding={4}>
+            <Flex align={"center"} gap={8}>
+              <Avatar bg="#ffffff" icon={<IoLogoUsd color="#000000" />} />
+              <Text color={"#000000"} fontWeight={"bold"}>
+                USD-GBP: {usdApi}
+              </Text>
+              {showArrow && <BsArrowRightSquareFill color="#000000" cursor={"pointer"} />}
+            </Flex>
+          </Card>
+        </Container>
+      )}
+      {showGBP && (
+        <Container
+          marginTop={4}
+          cursor={"pointer"}
+          onClick={() => navigate(`/wallet/buy_currency/gbp_to_usd/${userId}`)}
+        >
+          <Card padding={4}>
+            <Flex alignItems={"center"} gap={8}>
+              <Avatar bg="#ffffff" icon={<AiFillPoundCircle color="#000000" />} />
+              <Text color={"#000000"} fontWeight={"bold"}>
+                GBP-USD: {gbpApi}
+              </Text>
+              {showArrow && <BsArrowRightSquareFill color="#000000" cursor={"pointer"} />}
+            </Flex>
+          </Card>
+        </Container>
+      )}
     </>
   );
 };
