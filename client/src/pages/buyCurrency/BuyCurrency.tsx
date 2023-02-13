@@ -107,13 +107,11 @@ export const BuyCurrency: React.FC<IBuyCurrency> = ({ jestBuyTest, jestHistoryTe
         userQuantity: parseFloat(userQuantity!),
         choosedCurrency: choosedCurrency,
       });
-      console.log(data);
       await axios.put(`http://localhost:5000/history/${userId}`, {
         purchasedCurrency: choosedCurrency,
         currencyAmount: parseFloat(userQuantity!),
       });
 
-      console.log(data);
       toast({
         title: data,
         status: "success",
