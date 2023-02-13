@@ -29,9 +29,17 @@ const CurrencyContainer: React.FC<ICurrencyContainer> = ({ userId, showGBP, show
   const navigate = useNavigate();
 
   useEffect(() => {
-    socket.on("ping", () => {
-      socket.emit("pong");
-    });
+    const tryReconnect = () => {
+      setTimeout(() => {
+        socket.io.open((err) => {
+          if (err) {
+            tryReconnect();
+          }
+        });
+      }, 2000);
+    };
+
+    socket.io.on("close", tryReconnect);
     socket.on("Updated data from usd_to_gbp API", (data) => {
       setInterval(() => {
         setUsdApi(data);

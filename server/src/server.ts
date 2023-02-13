@@ -35,13 +35,13 @@ function get() {
 get();
 
 io.on("connection", (socket) => {
-  socket.on("Pong", () => {
-    socket.emit("Ping");
-  });
   socket.emit("Updated data from usd_to_gbp API", usd_to_gbp_val);
   socket.emit("Updated data from gbp_to_usd API", gbp_to_usd_val);
 
   connections.add(socket);
+  socket.once("disconnect", function () {
+    connections.delete(socket);
+  });
 });
 
 server.listen(port, () => {
