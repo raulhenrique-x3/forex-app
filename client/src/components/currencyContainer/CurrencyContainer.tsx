@@ -23,22 +23,25 @@ interface ICurrencyContainer {
 }
 
 const CurrencyContainer: React.FC<ICurrencyContainer> = ({ userId, showGBP, showUSD, showArrow }) => {
-  const socket = io("ws://localhost:5000", { autoConnect: true });
+  const socket = io("http://localhost:5000", { autoConnect: true });
   const [usdApi, setUsdApi] = useState<number>();
   const [gbpApi, setGbpApi] = useState<number>();
   const navigate = useNavigate();
 
   useEffect(() => {
+    socket.on("ping", () => {
+      socket.emit("pong");
+    });
     socket.on("Updated data from usd_to_gbp API", (data) => {
       setInterval(() => {
         setUsdApi(data);
-      }, 5000);
+      }, 3000);
     });
 
     socket.on("Updated data from gbp_to_usd API", (data) => {
       setInterval(() => {
         setGbpApi(data);
-      }, 5000);
+      }, 3000);
     });
 
     return () => {
