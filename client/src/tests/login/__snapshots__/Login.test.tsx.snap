@@ -1,0 +1,107 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+[
+  <div
+    className="css-l7yoyi"
+  >
+    <div
+      className="chakra-container css-vhc7ah"
+    >
+      <div
+        className="chakra-card css-jv498s"
+      >
+        <div
+          className="chakra-card__header css-1sl53ol"
+        >
+          <p
+            className="chakra-text css-1ug71u4"
+          >
+            Login
+          </p>
+        </div>
+        <div
+          className="chakra-card__body css-1idwstw"
+        >
+          <div
+            className="chakra-stack css-j7qwjs"
+          >
+            <div
+              className="css-0"
+            >
+              <label
+                className="chakra-form__label css-g6pte"
+              >
+                Email
+              </label>
+              <input
+                className="chakra-input css-1kp110w"
+                onBlur={[Function]}
+                onChange={[Function]}
+                onFocus={[Function]}
+                placeholder="Enter your email"
+                type="text"
+              />
+            </div>
+            <div
+              className="chakra-stack__divider css-1q5cbl"
+            />
+            <div
+              className="css-0"
+            >
+              <p
+                className="chakra-text css-0"
+              >
+                Password
+              </p>
+              <input
+                className="chakra-input css-1kp110w"
+                id="password"
+                onBlur={[Function]}
+                onChange={[Function]}
+                onFocus={[Function]}
+                placeholder="Enter your password"
+                type="password"
+              />
+            </div>
+            <div
+              className="chakra-stack__divider css-1q5cbl"
+            />
+            <div
+              className="css-j7qwjs"
+            >
+              <button
+                className="chakra-button css-1uxbacm"
+                id="loginButton"
+                onClick={[Function]}
+                type="button"
+              >
+                Login
+              </button>
+              <a
+                href="/register"
+                onClick={[Function]}
+              >
+                <div
+                  className="chakra-container css-hpbio4"
+                >
+                  <p
+                    className="chakra-text css-kf7p74"
+                  >
+                    Create an account
+                  </p>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>,
+  <span />,
+  <span
+    hidden={true}
+    id="__chakra_env"
+  />,
+]
+`;

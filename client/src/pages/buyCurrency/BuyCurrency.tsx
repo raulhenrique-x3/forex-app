@@ -10,7 +10,6 @@ import {
   CheckboxIcon,
   InputGroup,
   InputLeftElement,
-  Flex,
   useToast,
 } from "@chakra-ui/react";
 import {
@@ -31,51 +30,45 @@ import { IUser } from "../../interface/interface";
 import { Wallet } from "../../components/wallet/Wallet";
 import styles from "./buyCurrency.module.scss";
 import io from "socket.io-client";
+import CurrencyContainer from "../../components/currencyContainer/CurrencyContainer";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-export const options = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: "top" as const,
-    },
-    title: {
-      display: true,
-    },
-  },
-};
-
 interface IBuyCurrency {
-  map(arg0: (i: any) => any): any;
+  map?: any;
   source?: string;
   target?: string;
-  value?: number;
+  Value?: number;
   time?: number;
+  jestBuyTest?: object;
+  jestHistoryTest?: object;
 }
 
-export const BuyCurrency = () => {
-  const socket = io("ws://localhost:5000", { autoConnect: true });
+export const BuyCurrency: React.FC<IBuyCurrency> = ({ jestBuyTest, jestHistoryTest }) => {
+  // const socket = io("ws://localhost:5000", { autoConnect: true });
+
   const [apiData, setApiData] = useState<IBuyCurrency[]>([]);
   const [userData, setUserData] = useState<IUser[]>([]);
   const [currencyValue, setCurrencyValue] = useState<IBuyCurrency[]>([]);
   const [userQuantity, setUserQuantity] = useState<string>();
   const [choosedCurrency, setChoosedCurrency] = useState<string>();
   const [ioResponse, setIoResponse] = useState<object[]>();
-  const toast = useToast();
 
+  const toast = useToast();
   let { userId } = useParams();
   const { exchange } = useParams();
 
-  useEffect(() => {
-    socket.on("money_deposited", (data) => {
-      setIoResponse([data]);
-    });
+  // useEffect(() => {
+  //   socket.on("Atualized data from API", (data) => {
+  //     setIoResponse([data]);
+  //   });
 
-    return () => {
-      socket.off("money_deposited");
-    };
-  }, [socket]);
+  //   socket.emit("Previous data from API");
+
+  //   return () => {
+  //     socket.off("Atualized data from API");
+  //   };
+  // }, [socket]);
 
   useEffect(() => {
     axios
@@ -84,9 +77,9 @@ export const BuyCurrency = () => {
         setUserData([res.data]);
       })
       .catch((error) => {
-        console.error(error);
+        console.error("Error in BuyCurrency", error);
       });
-  }, [ioResponse]);
+  }, [userData]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     axios
@@ -95,7 +88,7 @@ export const BuyCurrency = () => {
         setApiData(res.data);
       })
       .catch((err) => console.error(err));
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     axios
@@ -104,7 +97,7 @@ export const BuyCurrency = () => {
         setCurrencyValue(res.data);
       })
       .catch((err) => console.error(err));
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   let numbers: number[] = [];
 
@@ -116,53 +109,62 @@ export const BuyCurrency = () => {
     labels: numbers,
     datasets: [
       {
-        label: "Taxa de Câmbio do GBP",
+        label: "Currency value variation chart",
         borderColor: "rgb(255, 99, 132)",
         backgroundColor: "rgba(255, 99, 132, 0.5)",
-        data: apiData[0]?.map((i) => i.value),
+        data: apiData[0]?.map((i: any) => i.value),
       },
     ],
   };
 
-  const buyCurrency = () => {
-    socket.emit("deposit_money", { depositMoney: parseFloat(userQuantity!) });
-    axios
-      .put(`http://localhost:5000/exchange/${userId}`, {
-        currencyValue: currencyValue[0]?.value,
+  const buyCurrency = async () => {
+    try {
+      const { data } = await axios.put(`http://localhost:5000/exchange/${userId}`, {
+        currencyValue: currencyValue[0]?.Value,
         userQuantity: parseFloat(userQuantity!),
         choosedCurrency: choosedCurrency,
-      })
-      .then((res) => {
-        axios.put(`http://localhost:5000/history/${userId}`, {
-          purchasedCurrency: choosedCurrency,
-          currencyAmount: parseFloat(userQuantity!),
-        });
-        toast({
-          title: res.data,
-          status: "success",
-          isClosable: true,
-        });
-      })
-      .catch((err) => {
-        toast({
-          title: err.message,
-          status: "error",
-          isClosable: true,
-        });
       });
+      console.log(data);
+      await axios.put(`http://localhost:5000/history/${userId}`, {
+        purchasedCurrency: choosedCurrency,
+        currencyAmount: parseFloat(userQuantity!),
+      });
+
+      console.log(data);
+      toast({
+        title: data,
+        status: "success",
+        isClosable: true,
+      });
+    } catch (error) {
+      toast({
+        title: "Insert a correct amount",
+        status: "error",
+        isClosable: true,
+      });
+    }
   };
 
   return (
     <main className={styles.buyCurrencyMain}>
       <Header user={userData} />
       <div className={styles.desktopCurrencyWallet}>
-        <Line options={options} data={data} />
+        <div className={styles.graphic}>
+          <div className={styles.graphicCurrency}>
+            <Line width={"100%"} height={"100%"} data={data} />
+          </div>
+        </div>
 
         <Container display={"flex"} flexDirection={"column"} gap={4}>
           <Container>
-            <Wallet ioUpdate={ioResponse} />
+            <Wallet />
             <CurrencyWallet walletName="GBP Wallet" user={userData} />
             <CurrencyWallet walletName="USD Wallet" user={userData} />
+            {exchange === "usd_to_gbp" ? (
+              <CurrencyContainer showGBP={true} showArrow={false} />
+            ) : (
+              <CurrencyContainer showUSD={true} showArrow={false} />
+            )}
           </Container>
           <Container display={"flex"} flexDirection={"column"} gap={4}>
             <Text fontSize="xl">Buy</Text>
@@ -173,16 +175,27 @@ export const BuyCurrency = () => {
             </InputGroup>
             <Select onChange={(e) => setChoosedCurrency(e.target.value)} width="100%">
               <option value={""}>Choose an currency to buy</option>
-              {exchange === "usd_to_gbp" ? <option value="GBP" label="GBP" /> : <option value="USD" label="USD" />}
+              {exchange === "usd_to_gbp" ? (
+                <option value="GBP-USD" label="GBP" />
+              ) : (
+                <option value="USD-GBP" label="USD" />
+              )}
             </Select>
-            {userQuantity === "NaN" || userQuantity === "" || userQuantity === undefined ? (
+            {isNaN(parseFloat(userQuantity!)) || parseFloat(userQuantity!) < 0 ? (
               <></>
             ) : (
               <Text fontSize={"xl"} color={"#000000"} fontWeight={"bold"}>
-                Total: ${currencyValue[0]?.value! * parseFloat(userQuantity)}
+                Total: ${currencyValue[0]?.Value! * parseFloat(userQuantity!)}
               </Text>
             )}
-            <Button onClick={buyCurrency} width={"100%"} backgroundColor={"#8236FD"} color={"#ffffff"}>
+
+            <Button
+              data-testid="BuyCurrency"
+              onClick={buyCurrency}
+              width={"100%"}
+              backgroundColor={"#8236FD"}
+              color={"#ffffff"}
+            >
               Buy
             </Button>
           </Container>

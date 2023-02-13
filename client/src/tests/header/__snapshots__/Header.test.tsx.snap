@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`He tries to logoff should be click in the Logout button 1`] = `
+<button
+  class="chakra-button css-4xx2wk"
+  data-testid="Logout"
+  type="button"
+>
+  Logout
+</button>
+`;

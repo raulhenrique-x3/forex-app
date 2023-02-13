@@ -5,7 +5,12 @@ import { useNavigate, useParams } from "react-router";
 import { IUser } from "../../interface/interface";
 import { BsFillArrowRightSquareFill } from "react-icons/bs";
 
-export const Wallet: React.FC<IUser> = ({ ioUpdate }) => {
+interface IWallet {
+  cursor?: "pointer";
+  showArrow?: boolean;
+}
+
+export const Wallet: React.FC<IWallet> = ({ cursor, showArrow }) => {
   const [userData, setUserData] = useState<IUser[]>([]);
   let { userId } = useParams();
   const navigate = useNavigate();
@@ -19,16 +24,21 @@ export const Wallet: React.FC<IUser> = ({ ioUpdate }) => {
       .catch((error) => {
         console.error(error);
       });
-  }, [ioUpdate]);
+  }, [userData]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const navigateToWallet = () => {
+    showArrow && navigate(`/wallet/${userId}`);
+  };
 
   return (
     <Card
       padding={4}
       display={"flex"}
       backgroundColor={"#8236FD"}
-      onClick={() => navigate(`/wallet/${userId}`)}
+      onClick={navigateToWallet}
       justifyContent={"space-around"}
-      cursor={"pointer"}
+      cursor={cursor}
+      data-testid={"walletComponent"}
     >
       <Flex alignItems={"center"}>
         <Container>
@@ -42,8 +52,7 @@ export const Wallet: React.FC<IUser> = ({ ioUpdate }) => {
             }).format(userData[0]?.userWallet?.userBalance!)}
           </Text>
         </Container>
-
-        <BsFillArrowRightSquareFill color={"#ffffff"} />
+        {showArrow && <BsFillArrowRightSquareFill color={"#ffffff"} />}
       </Flex>
     </Card>
   );

@@ -1,4 +1,4 @@
-import { Card, Container, Flex, Stack, Text } from "@chakra-ui/react";
+import { Card, Container, Flex, Text } from "@chakra-ui/react";
 import React from "react";
 import { IUser } from "../../interface/interface";
 import { IoLogoUsd } from "react-icons/io";

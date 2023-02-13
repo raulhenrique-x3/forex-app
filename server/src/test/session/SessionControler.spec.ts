@@ -3,17 +3,30 @@ import app from "../../index";
 import request from "supertest";
 import { SessionMock } from "./sessionMock";
 import { WrongSessionMock } from "./wrongSessionMock";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+dotenv.config({ path: "../../src/.env" });
+jest.setTimeout(60000);
 
-describe("Test if user can login in app", () => {
-  it("can login in app?", async () => {
-    await request(app).post("/session").send(SessionMock);
+beforeEach(async () => {
+  await mongoose
+    .connect(process.env.DB_TEST_URI!)
+    .then(() => console.log("Connected to MongoDB"))
+    .catch((err) => console.error(err));
+});
 
-    const searchUser = await User.findOne({ userEmail: SessionMock.userEmail });
+afterAll(async () => {
+  await User.findOneAndRemove({ userEmail: SessionMock.userEmail });
+});
 
-    expect(searchUser?.userEmail).toEqual(SessionMock.userEmail);
+describe("Should be able to login", () => {
+  it("get success on login with correct email and password?", async () => {
+    await User.findOne({ userEmail: SessionMock.userEmail, userPassword: SessionMock.userPassword });
+    const res = await request(app).post("/session").send(SessionMock);
+    expect(res.statusCode).toBe(200);
   });
 
-  it("try to login with incorrect email?", async () => {
+  it("try to login with incorrect email", async () => {
     const res = await request(app)
       .post("/session")
       .send({ userEmail: WrongSessionMock.userEmail, userPassword: SessionMock.userPassword });
@@ -34,16 +47,5 @@ describe("Test if user can login in app", () => {
 
     expect(res.status).toBe(400);
     expect(res.body).toEqual({ message: "Invalid password" });
-  });
-
-  it("get success on login with correct email and password?", async () => {
-    const res = await request(app).post("/session").send(SessionMock);
-
-    await User.findOne({
-      userEmail: SessionMock.userEmail,
-      userPassword: SessionMock.userPassword,
-    });
-
-    expect(res.status).toBe(200);
   });
 });

@@ -14,12 +14,7 @@ const formattedDate = currentDate.toLocaleString("default", {
   year: "numeric",
 });
 
-const formattedTime = currentDate.toLocaleString("default", {
-  hour: "2-digit",
-  minute: "2-digit",
-});
-
-const dateAndTime = `${formattedDate} ${formattedTime}`;
+const dateAndTime = `${formattedDate}`;
 
 export default {
   async create(req: Request, res: Response) {

@@ -1,0 +1,406 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Access the home page should be rendered 1`] = `
+[
+  <div
+    className="css-122l52y"
+  >
+    <header
+      className="header"
+    >
+      <a
+        href="/home/undefined"
+        onClick={[Function]}
+      >
+        <p
+          className="headerText"
+        >
+          Forex-app
+        </p>
+      </a>
+      <div
+        className="desktopView"
+      >
+        <button
+          className="chakra-button css-i99016"
+          onClick={[Function]}
+          type="button"
+        >
+          <svg
+            color="#8236FD"
+            fill="none"
+            height="1em"
+            stroke="currentColor"
+            strokeWidth="0"
+            style={
+              {
+                "color": "#8236FD",
+              }
+            }
+            viewBox="0 0 24 24"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M4 6h16M4 12h16M4 18h16"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+            />
+          </svg>
+        </button>
+      </div>
+      <nav
+        className="desktopNav"
+      >
+        <ul
+          className="desktopUl"
+        >
+          <li>
+            <a
+              href="/home/undefined"
+              onClick={[Function]}
+            >
+              Home 
+            </a>
+          </li>
+          <li>
+            <a
+              href="/wallet/undefined"
+              onClick={[Function]}
+            >
+              Wallet 
+            </a>
+          </li>
+          <li>
+            <a
+              href="/history/undefined"
+              onClick={[Function]}
+            >
+              History 
+            </a>
+          </li>
+        </ul>
+        <button
+          className="chakra-button css-jut409"
+          onClick={[Function]}
+          type="button"
+        >
+          Logout
+        </button>
+      </nav>
+    </header>
+    <div
+      className="desktopViewInfo"
+    >
+      <div
+        className="css-18vs6z"
+      >
+        <span
+          className="chakra-avatar css-qlhcd1"
+        >
+          <svg
+            aria-label=" avatar"
+            className="chakra-avatar__svg css-16ite8i"
+            role="img"
+            viewBox="0 0 128 128"
+          >
+            <path
+              d="M103,102.1388 C93.094,111.92 79.3504,118 64.1638,118 C48.8056,118 34.9294,111.768 25,101.7892 L25,95.2 C25,86.8096 31.981,80 40.6,80 L87.4,80 C96.019,80 103,86.8096 103,95.2 L103,102.1388 Z"
+              fill="currentColor"
+            />
+            <path
+              d="M63.9961647,24 C51.2938136,24 41,34.2938136 41,46.9961647 C41,59.7061864 51.2938136,70 63.9961647,70 C76.6985159,70 87,59.7061864 87,46.9961647 C87,34.2938136 76.6985159,24 63.9961647,24"
+              fill="currentColor"
+            />
+          </svg>
+        </span>
+        <div>
+          <p
+            className="chakra-text css-1xs2h3i"
+          />
+          <p
+            className="chakra-text css-qqfgvy"
+          />
+          <button
+            className="chakra-button css-tri09f"
+            type="button"
+          >
+            ID: 
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      className="chakra-container css-1oj9wzd"
+    >
+      <div
+        className="css-1rwovhe"
+      >
+        <div
+          className="chakra-card css-eeihmn"
+          onClick={[Function]}
+        >
+          <div
+            className="css-70qvj9"
+          >
+            <div
+              className="chakra-container css-vhc7ah"
+            >
+              <p
+                className="chakra-text css-12ukh6o"
+              >
+                Wallet balance:
+                 
+              </p>
+              <p
+                className="chakra-text css-proevc"
+              >
+                $NaN
+              </p>
+            </div>
+            <svg
+              color="#ffffff"
+              fill="currentColor"
+              height="1em"
+              stroke="currentColor"
+              strokeWidth="0"
+              style={
+                {
+                  "color": "#ffffff",
+                }
+              }
+              viewBox="0 0 16 16"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M0 14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v12zm4.5-6.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5a.5.5 0 0 1 0-1z"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+      <hr
+        aria-orientation="horizontal"
+        className="chakra-divider css-svjswr"
+      />
+      <div
+        className="chakra-container css-vhc7ah"
+      />
+      <hr
+        aria-orientation="horizontal"
+        className="chakra-divider css-svjswr"
+      />
+    </div>
+  </div>,
+  <span />,
+  <span
+    hidden={true}
+    id="__chakra_env"
+  />,
+]
+`;
+
+exports[`Access the home page should to show a value of wallet in home 1`] = `
+[
+  <div
+    className="css-122l52y"
+  >
+    <header
+      className="header"
+    >
+      <a
+        href="/home/undefined"
+        onClick={[Function]}
+      >
+        <p
+          className="headerText"
+        >
+          Forex-app
+        </p>
+      </a>
+      <div
+        className="desktopView"
+      >
+        <button
+          className="chakra-button css-i99016"
+          onClick={[Function]}
+          type="button"
+        >
+          <svg
+            color="#8236FD"
+            fill="none"
+            height="1em"
+            stroke="currentColor"
+            strokeWidth="0"
+            style={
+              {
+                "color": "#8236FD",
+              }
+            }
+            viewBox="0 0 24 24"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M4 6h16M4 12h16M4 18h16"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+            />
+          </svg>
+        </button>
+      </div>
+      <nav
+        className="desktopNav"
+      >
+        <ul
+          className="desktopUl"
+        >
+          <li>
+            <a
+              href="/home/undefined"
+              onClick={[Function]}
+            >
+              Home 
+            </a>
+          </li>
+          <li>
+            <a
+              href="/wallet/undefined"
+              onClick={[Function]}
+            >
+              Wallet 
+            </a>
+          </li>
+          <li>
+            <a
+              href="/history/undefined"
+              onClick={[Function]}
+            >
+              History 
+            </a>
+          </li>
+        </ul>
+        <button
+          className="chakra-button css-jut409"
+          onClick={[Function]}
+          type="button"
+        >
+          Logout
+        </button>
+      </nav>
+    </header>
+    <div
+      className="desktopViewInfo"
+    >
+      <div
+        className="css-18vs6z"
+      >
+        <span
+          className="chakra-avatar css-qlhcd1"
+        >
+          <svg
+            aria-label=" avatar"
+            className="chakra-avatar__svg css-16ite8i"
+            role="img"
+            viewBox="0 0 128 128"
+          >
+            <path
+              d="M103,102.1388 C93.094,111.92 79.3504,118 64.1638,118 C48.8056,118 34.9294,111.768 25,101.7892 L25,95.2 C25,86.8096 31.981,80 40.6,80 L87.4,80 C96.019,80 103,86.8096 103,95.2 L103,102.1388 Z"
+              fill="currentColor"
+            />
+            <path
+              d="M63.9961647,24 C51.2938136,24 41,34.2938136 41,46.9961647 C41,59.7061864 51.2938136,70 63.9961647,70 C76.6985159,70 87,59.7061864 87,46.9961647 C87,34.2938136 76.6985159,24 63.9961647,24"
+              fill="currentColor"
+            />
+          </svg>
+        </span>
+        <div>
+          <p
+            className="chakra-text css-1xs2h3i"
+          />
+          <p
+            className="chakra-text css-qqfgvy"
+          />
+          <button
+            className="chakra-button css-tri09f"
+            type="button"
+          >
+            ID: 
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      className="chakra-container css-1oj9wzd"
+    >
+      <div
+        className="css-1rwovhe"
+      >
+        <div
+          className="chakra-card css-eeihmn"
+          id="walletComponent"
+          onClick={[Function]}
+        >
+          <div
+            className="css-70qvj9"
+          >
+            <div
+              className="chakra-container css-vhc7ah"
+            >
+              <p
+                className="chakra-text css-12ukh6o"
+              >
+                Wallet balance:
+                 
+              </p>
+              <p
+                className="chakra-text css-proevc"
+              >
+                $NaN
+              </p>
+            </div>
+            <svg
+              color="#ffffff"
+              fill="currentColor"
+              height="1em"
+              stroke="currentColor"
+              strokeWidth="0"
+              style={
+                {
+                  "color": "#ffffff",
+                }
+              }
+              viewBox="0 0 16 16"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M0 14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v12zm4.5-6.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5a.5.5 0 0 1 0-1z"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+      <hr
+        aria-orientation="horizontal"
+        className="chakra-divider css-svjswr"
+      />
+      <div
+        className="chakra-container css-vhc7ah"
+      />
+      <hr
+        aria-orientation="horizontal"
+        className="chakra-divider css-svjswr"
+      />
+    </div>
+  </div>,
+  <span />,
+  <span
+    hidden={true}
+    id="__chakra_env"
+  />,
+]
+`;

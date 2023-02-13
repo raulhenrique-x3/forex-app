@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">24% </span>
+                <span class="strong">96% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>6/25</span>
+                <span class='fraction'>24/25</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">83.33% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>5/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
-                <span class="quiet">Branches</span>
-                <span class='fraction'>0/0</span>
-            </div>
-        
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/1</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">24% </span>
+                <span class="strong">96% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>6/25</span>
+                <span class='fraction'>24/25</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -93,50 +93,50 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import User from "../models/userData";
 import { Request, Response } from "express";
 &nbsp;
 export default {
-  async <span class="fstat-no" title="function not covered" >create(req: Request, res: Response) {</span>
-<span class="cstat-no" title="statement not covered" >    const userId = req.params.id;</span>
-<span class="cstat-no" title="statement not covered" >    const user = User.findOne({ userId });</span>
-<span class="cstat-no" title="statement not covered" >    const addToWallet: number = req.body.addToWallet;</span>
-<span class="cstat-no" title="statement not covered" >    try {</span>
-<span class="cstat-no" title="statement not covered" >      if (!user) {</span>
+  async create(req: Request, res: Response) {
+    const userId = req.params.id;
+    const user = User.findOne({ userId });
+    const addToWallet = req.body.addToWallet;
+    try {
+      if (!user) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
 <span class="cstat-no" title="statement not covered" >        return res.status(400).send({ message: "User not found" });</span>
-<span class="cstat-no" title="statement not covered" >      } else if (addToWallet &lt;= 0) {</span>
-<span class="cstat-no" title="statement not covered" >        return res.status(400).send({ message: "Incorrect value" });</span>
-<span class="cstat-no" title="statement not covered" >      } else {</span>
-<span class="cstat-no" title="statement not covered" >        await User.findByIdAndUpdate(userId, {</span>
-<span class="cstat-no" title="statement not covered" >          $inc: { "userWallet.usdAmount": addToWallet, "userWallet.userBalance": addToWallet },</span>
-<span class="cstat-no" title="statement not covered" >        }).then(() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >          return res.status(200).send({ message: "Value added successfully!" });</span>
-<span class="cstat-no" title="statement not covered" >        });</span>
-<span class="cstat-no" title="statement not covered" >      }</span>
-<span class="cstat-no" title="statement not covered" >    } catch (error) {</span>
-<span class="cstat-no" title="statement not covered" >      return res.status(500).send({ message: error });</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >  },</span>
+      } else if (addToWallet &lt;= 0) {
+        return res.status(400).send({ message: "Incorrect value" });
+      } else {
+        await User.findByIdAndUpdate(userId, {
+          $inc: { "userWallet.usdAmount": addToWallet, "userWallet.userBalance": addToWallet },
+        }).then(() =&gt; {
+          return res.status(200).send({ message: "Value added successfully!" });
+        });
+      }
+    } catch (error) {
+      return res.status(500).send({ message: error });
+    }
+  },
 };
 &nbsp;</pre></td></tr></table></pre>
 
@@ -145,7 +145,7 @@ export default {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-02-08T19:15:34.643Z
+                at 2023-02-12T14:04:55.157Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

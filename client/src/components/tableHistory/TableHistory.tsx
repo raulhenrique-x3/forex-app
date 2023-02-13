@@ -16,11 +16,9 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import React from "react";
 import { BsChevronDown } from "react-icons/bs";
 import { IUser } from "../../interface/interface";
-import { MenuSearch } from "../menu/MenuSearch";
-import { useState } from "react";
+import React, { useState } from "react";
 
 interface ITableHistory {
   user: IUser[];
@@ -31,7 +29,6 @@ interface ITableHistory {
 export const TableHistory: React.FC<ITableHistory> = ({ user, label, sliceFrom, sliceTo }) => {
   const [chooseFilter, setChooseFilter] = useState("");
   const filterBy = user[0]?.userExchangeHistory?.filter((curr) => curr.purchasedCurrency === chooseFilter);
-  console.log(chooseFilter);
   return (
     <Container>
       <Flex align={"center"} justifyContent={"space-between"}>
@@ -59,9 +56,9 @@ export const TableHistory: React.FC<ITableHistory> = ({ user, label, sliceFrom, 
             <MenuDivider />
             <MenuItem onClick={() => setChooseFilter("Deposit")}>Deposit</MenuItem>
             <MenuDivider />
-            <MenuItem onClick={() => setChooseFilter("GBP")}>GBP</MenuItem>
+            <MenuItem onClick={() => setChooseFilter("GBP-USD")}>GBP</MenuItem>
             <MenuDivider />
-            <MenuItem onClick={() => setChooseFilter("USD")}>USD</MenuItem>
+            <MenuItem onClick={() => setChooseFilter("USD-GBP")}>USD</MenuItem>
           </MenuList>
         </Menu>
       </Flex>
@@ -80,23 +77,26 @@ export const TableHistory: React.FC<ITableHistory> = ({ user, label, sliceFrom, 
                 ?.map((info, key) => (
                   <Tbody key={key}>
                     <Tr>
-                      <Td>{info.purchasedCurrency}</Td>
-                      <Td>{info.currencyAmount}</Td>
-                      <Td>{info.dateOfExchange}</Td>
+                      <Td>{info?.purchasedCurrency}</Td>
+                      <Td>${info?.currencyAmount}</Td>
+                      <Td>{info?.dateOfExchange}</Td>
                     </Tr>
                   </Tbody>
                 ))
                 .reverse()
                 .slice(sliceFrom, sliceTo)
-            : filterBy?.map((info, key) => (
-                <Tbody key={key}>
-                  <Tr>
-                    <Td>{info.purchasedCurrency}</Td>
-                    <Td>{info.currencyAmount}</Td>
-                    <Td>{info.dateOfExchange}</Td>
-                  </Tr>
-                </Tbody>
-              ))}
+            : filterBy
+                ?.map((info, key) => (
+                  <Tbody key={key}>
+                    <Tr>
+                      <Td>{info?.purchasedCurrency}</Td>
+                      <Td>${info?.currencyAmount}</Td>
+                      <Td>{info?.dateOfExchange}</Td>
+                    </Tr>
+                  </Tbody>
+                ))
+                .reverse()
+                .slice(sliceFrom, sliceTo)}
         </Table>
       </TableContainer>
     </Container>

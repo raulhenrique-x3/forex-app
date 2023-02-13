@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useMemo, useState } from "react";
 
 interface IProps {
   isAuthenticated: boolean;
@@ -27,7 +27,8 @@ export function AuthContextProvider({ children }: IChildren) {
     setIsAuthenticated(false);
   };
 
-  return <AuthContext.Provider value={{ isAuthenticated, login, logout }}>{children}</AuthContext.Provider>;
+  const value = useMemo(() => ({ isAuthenticated, login, logout }), [isAuthenticated]);
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 export const AuthConsumer = AuthContext.Consumer;

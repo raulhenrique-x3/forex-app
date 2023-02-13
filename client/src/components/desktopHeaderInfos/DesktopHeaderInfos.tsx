@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Container, Text } from "@chakra-ui/react";
+import { Avatar, Box, Button, Text } from "@chakra-ui/react";
 import React from "react";
 import { IUser } from "../../interface/interface";
 

@@ -4,5 +4,5 @@ import useAuth from "../../hooks/useAuth";
 export const AuthRoute = () => {
   const { isAuthenticated } = useAuth();
   const location = useLocation();
-  return isAuthenticated ? <Outlet /> : <Navigate to={"/"} state={{ from: location }} replace />;
+  return isAuthenticated ? <Outlet /> : <Navigate to={"/unauthorized"} state={{ from: location }} replace />;
 };
