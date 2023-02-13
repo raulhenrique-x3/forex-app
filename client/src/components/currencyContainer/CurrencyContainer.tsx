@@ -23,12 +23,14 @@ interface ICurrencyContainer {
 }
 
 const CurrencyContainer: React.FC<ICurrencyContainer> = ({ userId, showGBP, showUSD, showArrow }) => {
-  const socket = io("http://localhost:5000", { autoConnect: true });
+  const socket = io("localhost:5000", { autoConnect: true });
   const [usdApi, setUsdApi] = useState<number>();
   const [gbpApi, setGbpApi] = useState<number>();
   const navigate = useNavigate();
 
   useEffect(() => {
+    socket.connect();
+
     socket.on("connect_error", (err) => {
       console.log("Connection Lost. Reconnecting..");
       socket.disconnect();
@@ -48,8 +50,7 @@ const CurrencyContainer: React.FC<ICurrencyContainer> = ({ userId, showGBP, show
     });
 
     return () => {
-      socket.off("Updated data from usd_to_gbp API");
-      socket.off("Updated data from gbp_to_usd API");
+      socket.disconnect();
     };
   }, []);
 
