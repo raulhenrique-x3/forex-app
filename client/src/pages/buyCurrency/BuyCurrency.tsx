@@ -29,6 +29,7 @@ import { CurrencyWallet } from "../../components/currencyWallet/CurrencyWallet";
 import { IUser } from "../../interface/interface";
 import { Wallet } from "../../components/wallet/Wallet";
 import styles from "./buyCurrency.module.scss";
+import io from "socket.io-client";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -46,12 +47,32 @@ export const BuyCurrency: React.FC<IBuyCurrency> = ({ jestBuyTest, jestHistoryTe
   const [apiData, setApiData] = useState<IBuyCurrency[]>([]);
   const [userData, setUserData] = useState<IUser[]>([]);
   const [currencyValue, setCurrencyValue] = useState<IBuyCurrency[]>([]);
+  const [usdApi, setUsdApi] = useState<number>();
+  const [gbpApi, setGbpApi] = useState<number>();
   const [userQuantity, setUserQuantity] = useState<string>();
   const [choosedCurrency, setChoosedCurrency] = useState<string>();
 
   const toast = useToast();
   let { userId } = useParams();
   const { exchange } = useParams();
+
+  useEffect(() => {
+    const socket = io("ws://localhost:5000", { autoConnect: true });
+    socket.connect();
+    setInterval(() => {
+      socket.on("Updated data from usd_to_gbp API", (data) => {
+        setUsdApi(data);
+      });
+
+      socket.on("Updated data from gbp_to_usd API", (data) => {
+        setGbpApi(data);
+      });
+    }, 1000);
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
 
   useEffect(() => {
     axios
@@ -69,15 +90,6 @@ export const BuyCurrency: React.FC<IBuyCurrency> = ({ jestBuyTest, jestHistoryTe
       .get(`http://localhost:5000/api/history/${exchange}`)
       .then((res) => {
         setApiData(res.data);
-      })
-      .catch((err) => console.error(err));
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-  useEffect(() => {
-    axios
-      .get(`http://localhost:5000/api/${exchange}`)
-      .then((res) => {
-        setCurrencyValue(res.data);
       })
       .catch((err) => console.error(err));
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -101,9 +113,10 @@ export const BuyCurrency: React.FC<IBuyCurrency> = ({ jestBuyTest, jestHistoryTe
   };
 
   const buyCurrency = async () => {
+    let currencyValue = exchange === "usd_to_gbp" ? usdApi : gbpApi;
     try {
       const { data } = await axios.put(`http://localhost:5000/exchange/${userId}`, {
-        currencyValue: currencyValue[0]?.Value,
+        currencyValue: currencyValue! * parseFloat(userQuantity!),
         userQuantity: parseFloat(userQuantity!),
         choosedCurrency: choosedCurrency,
       });
@@ -157,11 +170,19 @@ export const BuyCurrency: React.FC<IBuyCurrency> = ({ jestBuyTest, jestHistoryTe
                 <option value="USD-GBP" label="USD" />
               )}
             </Select>
-            {isNaN(parseFloat(userQuantity!)) || parseFloat(userQuantity!) < 0 ? (
+            {exchange === "usd_to_gbp" ? (
+              isNaN(parseFloat(userQuantity!)) || parseFloat(userQuantity!) < 0 ? (
+                <></>
+              ) : (
+                <Text fontSize={"xl"} color={"#000000"} fontWeight={"bold"}>
+                  Total: ${usdApi! * parseFloat(userQuantity!)}
+                </Text>
+              )
+            ) : isNaN(parseFloat(userQuantity!)) || parseFloat(userQuantity!) < 0 ? (
               <></>
             ) : (
               <Text fontSize={"xl"} color={"#000000"} fontWeight={"bold"}>
-                Total: ${currencyValue[0]?.Value! * parseFloat(userQuantity!)}
+                Total: ${gbpApi! * parseFloat(userQuantity!)}
               </Text>
             )}
 
